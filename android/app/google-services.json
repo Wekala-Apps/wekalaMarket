@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "273173449431",
+    "firebase_url": "https://wekala-bf2ac-default-rtdb.firebaseio.com",
+    "project_id": "wekala-bf2ac",
+    "storage_bucket": "wekala-bf2ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273173449431:android:33d7dc32b4064c53f2be92",
+        "android_client_info": {
+          "package_name": "wekala.store.client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcLXcW9LvHQNNN_veB2vWP591EQ9GZ5UI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "273173449431-csqomer29tkcd21eo447q6dsl28ivn9c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wekala.wekala"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273173449431:android:229850976f3a0483f2be92",
+        "android_client_info": {
+          "package_name": "wekala.store.deliveryBoy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcLXcW9LvHQNNN_veB2vWP591EQ9GZ5UI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "273173449431-csqomer29tkcd21eo447q6dsl28ivn9c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wekala.wekala"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273173449431:android:1a7bcdaa436a1116f2be92",
+        "android_client_info": {
+          "package_name": "wekala.store.owner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcLXcW9LvHQNNN_veB2vWP591EQ9GZ5UI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "273173449431-csqomer29tkcd21eo447q6dsl28ivn9c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wekala.wekala"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

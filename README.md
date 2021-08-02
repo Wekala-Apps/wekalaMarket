@@ -1,2 +1,2 @@
 # wekalaMarket
- Wekala client APP
+ Wekala client APP for markets

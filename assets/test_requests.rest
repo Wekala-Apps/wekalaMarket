@@ -1,0 +1,83 @@
+### Use this file to test out your REST call before implementing them in the code
+
+# Local JSON-Server
+### Change the IP address below to your PC's IP address. Remain the port number 3000 unchanged
+# @baseUrl = http://192.168.0.5:3000
+
+# Local Firebase Emulator 
+#@baseUrl = http://192.168.100.40:5001/patientaid-206bb/us-central1/api
+//@baseUrl = https://markets.smartersvision.com/api
+@baseUrl = http://wekala.store/api/
+//@baseUrl = AIzaSyCcLXcW9LvHQNNN_veB2vWP591EQ9GZ5UI
+
+# Live Firebase
+# @baseUrl = https://us-central1-mvvm-frontend-and-mvc-backend.cloudfunctions.net/api
+
+### Request 1 : Get a user whose correct 'login' and 'password'
+### Purpose   : To simulate the authentication process. 
+GET {{baseUrl}}/users?login=omar@gmail.com&password=123456789
+
+### Request 2 : Get the counter data  for a given user
+GET {{baseUrl}}/users/81C3QFA7wIYFjFrufQUuMHR7fus1
+
+### Request 3 : Update the information of a given counter
+PUT {{baseUrl}}/users/ewons54sm68mr31byaNd
+Content-Type: application/json
+
+{
+    "name": "omar Eltablawy",
+    "id": "user4"
+}
+
+### Request: Get all users
+GET {{baseUrl}}/categories?market_id=1
+
+### Request: Add a new user
+POST {{baseUrl}}/categories
+Content-Type: application/json
+
+{
+    "id": "1",
+    "name": "Fruits",
+    "login": "",
+    "email": "omar@gmail.com",
+    "phoneNumber": "0156456",
+    "photoUrl": "assets/mathew.png",
+    "appointment": null,
+    "hasAppointment": false
+}
+
+
+### Request: Delete a user
+POST {{baseUrl}}/Appointments
+Content-Type: application/json
+
+{
+    "name": "omar",
+    "approve": true,
+    "disapprove": true,
+    "hospitalName": "KPJ",
+    "docotorId": 2,
+    "userId": 26,
+    "day": "2021-07-05 13:30:00.000Z",
+    "isSelected": true
+}
+
+
+### Request: Delete a user
+PATCH {{baseUrl}}/categories?market_id=1
+Content-Type: application/json
+
+{  
+    "name": "batekh"
+}
+
+### Request: Delete a user
+GET {{baseUrl}}/hospitals
+
+
+### Request: Delete a user
+GET {{baseUrl}}/users?id=81C3QFA7wIYFjFrufQUuMHR7fus1
+
+### Request: Delete a user
+DELETE {{baseUrl}}/users/ewons54sm68mr31byaNd
