@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -181,7 +182,51 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                           //     .pushReplacementNamed('/Pages', arguments: 2);
                         },
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 30),
+                      // SignInButton(
+                      //   Buttons.Google,
+                      //   onPressed: () {},
+                      // ),
+                      // SignInButtonBuilder(
+                      //   elevation: 2.0,
+                      //   key: ValueKey("Google"),
+                      //   text: 'Sign in with Google',
+                      //   fontSize: 18,
+                      //   textColor: Color(0xFFFFFFFF),
+                      //   image: Container(
+                      //     margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                      //     child: ClipRRect(
+                      //       borderRadius: BorderRadius.circular(8.0),
+                      //       child: Image(
+                      //         image: AssetImage(
+                      //           // button == Buttons.Google
+                      //           // ? 'assets/logos/google_light.png'
+                      //           'assets/logos/google_dark.png',
+                      //           package: 'flutter_signin_button',
+                      //         ),
+                      //         // height: 50.0,
+                      //         // width: 50.0,
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   backgroundColor: Color(0xFF4285F4),
+                      //   onPressed: () {},
+                      //   padding: EdgeInsets.all(0),
+                      //   innerPadding: EdgeInsets.all(0),
+                      //   // width: 500,
+                      // ),
+                      Divider(),
+                      SignInButton(
+                        Buttons.GoogleDark,
+                        // text: 'login with Google',
+                        onPressed: () {},
+                      ),
+                      Divider(),
+                      SignInButton(
+                        Buttons.Facebook,
+                        onPressed: () {},
+                      ),
+                      SizedBox(height: 5),
                       MaterialButton(
                         elevation: 0,
                         onPressed: () {
@@ -201,7 +246,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
               ),
             ),
             Positioned(
-              bottom: 10,
+              bottom: 4,
               child: Column(
                 children: <Widget>[
                   MaterialButton(
