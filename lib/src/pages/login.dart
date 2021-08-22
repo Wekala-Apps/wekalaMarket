@@ -182,7 +182,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                           //     .pushReplacementNamed('/Pages', arguments: 2);
                         },
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 15),
                       // SignInButton(
                       //   Buttons.Google,
                       //   onPressed: () {},
