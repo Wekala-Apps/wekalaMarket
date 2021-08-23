@@ -97,63 +97,67 @@ class _DeliveryPickupWidgetState extends StateMVC<DeliveryPickupWidget> {
                   padding: const EdgeInsets.only(
                       top: 20, bottom: 10, left: 20, right: 10),
                   child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: Icon(
-                        Icons.map_outlined,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        S.of(context).delivery,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      subtitle: // _con.carts.isNotEmpty && Helper.canDelivery(_con.carts[0].product.market, carts: _con.carts)
-                          Text(
-                        S
-                            .of(context)
-                            .click_to_confirm_your_address_and_pay_or_long_press,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption,
-                      )
-                      //:// Text(
-                      //   S.of(context).deliveryMethodNotAllowed,
-                      //   maxLines: 3,
-                      //   overflow: TextOverflow.ellipsis,
-                      //   style: Theme.of(context).textTheme.caption,
-                      // ),
-                      ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    leading: Icon(
+                      Icons.map_outlined,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    title: Text(
+                      S.of(context).delivery,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    subtitle: _con.carts.isNotEmpty &&
+                            Helper.canDelivery(_con.carts[0].product.market,
+                                carts: _con.carts)
+                        ? Text(
+                            S
+                                .of(context)
+                                .click_to_confirm_your_address_and_pay_or_long_press,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.caption,
+                          )
+                        : Text(
+                            S.of(context).deliveryMethodNotAllowed,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                  ),
                 ),
-                //_con.carts.isNotEmpty && Helper.canDelivery(_con.carts[0].product.market, carts: _con.carts)
-                DeliveryAddressesItemWidget(
-                  paymentMethod: _con.getDeliveryMethod(),
-                  address: _con.deliveryAddress,
-                  onPressed: (Address _address) {
-                    if (_con.deliveryAddress.id == null ||
-                        _con.deliveryAddress.id == 'null') {
-                      DeliveryAddressDialog(
-                        context: context,
-                        address: _address,
-                        onChanged: (Address _address) {
-                          _con.addAddress(_address);
+                _con.carts.isNotEmpty &&
+                        Helper.canDelivery(_con.carts[0].product.market,
+                            carts: _con.carts)
+                    ? DeliveryAddressesItemWidget(
+                        paymentMethod: _con.getDeliveryMethod(),
+                        address: _con.deliveryAddress,
+                        onPressed: (Address _address) {
+                          if (_con.deliveryAddress.id == null ||
+                              _con.deliveryAddress.id == 'null') {
+                            DeliveryAddressDialog(
+                              context: context,
+                              address: _address,
+                              onChanged: (Address _address) {
+                                _con.addAddress(_address);
+                              },
+                            );
+                          } else {
+                            _con.toggleDelivery();
+                          }
                         },
-                      );
-                    } else {
-                      _con.toggleDelivery();
-                    }
-                  },
-                  onLongPress: (Address _address) {
-                    DeliveryAddressDialog(
-                      context: context,
-                      address: _address,
-                      onChanged: (Address _address) {
-                        _con.updateAddress(_address);
-                      },
-                    );
-                  },
-                )
-                //: NotDeliverableAddressesItemWidget()
+                        onLongPress: (Address _address) {
+                          DeliveryAddressDialog(
+                            context: context,
+                            address: _address,
+                            onChanged: (Address _address) {
+                              _con.updateAddress(_address);
+                            },
+                          );
+                        },
+                      )
+                    : NotDeliverableAddressesItemWidget()
               ],
             )
           ],
