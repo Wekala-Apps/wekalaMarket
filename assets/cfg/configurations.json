@@ -1,4 +1,4 @@
 {
-  "api_base_url": "http://wekala.store/public/api/",
-  "base_url": "http://wekala.store/public/"
+    "api_base_url": "http://192.168.100.40:8000/api/",
+    "base_url": "http://192.168.100.40:8000/"
 }
