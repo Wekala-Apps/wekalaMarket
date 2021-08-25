@@ -29,3 +29,4 @@ class CheckboxFormField extends FormField<bool> {
               );
             });
 }
+
