@@ -13,7 +13,9 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Wekala"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        >
 
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyC3YYz8jqvHY3Yup1lzIdlU51FsjHKH5yE"/>
