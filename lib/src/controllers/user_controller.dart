@@ -37,9 +37,38 @@ class UserController extends ControllerMVC {
       Overlay.of(state.context).insert(loader);
       repository.login(user).then((value) {
         if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+          Navigator.of(scaffoldKey.currentContext)
+              .pushReplacementNamed('/Pages', arguments: 2);
         } else {
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(S.of(state.context).wrong_email_or_password),
+          ));
+        }
+      }).catchError((e) {
+        loader.remove();
+        ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          content: Text(S.of(state.context).this_account_not_exist),
+        ));
+      }).whenComplete(() {
+        Helper.hideLoader(loader);
+      });
+    }
+  }
+
+  void loginGoogle() async {
+    loader = Helper.overlayLoader(state.context);
+    FocusScope.of(state.context).unfocus();
+    if (true) {
+      // loginFormKey.currentState.save();
+      // Overlay.of(state.context).insert(loader);
+      repository.loginGoogle().then((value) {
+        if (value != null && value.apiToken != null) {
+          Navigator.of(scaffoldKey.currentContext)
+              .pushReplacementNamed('/Pages', arguments: 2);
+        } else {
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
             content: Text(S.of(state.context).wrong_email_or_password),
           ));
         }
@@ -66,12 +95,14 @@ class UserController extends ControllerMVC {
         MaterialPageRoute(
             builder: (context) => MobileVerification2(
                   onVerified: (v) {
-                    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+                    Navigator.of(scaffoldKey.currentContext)
+                        .pushReplacementNamed('/Pages', arguments: 2);
                   },
                 )),
       );
     };
-    final PhoneVerificationCompleted _verifiedSuccess = (AuthCredential auth) {};
+    final PhoneVerificationCompleted _verifiedSuccess =
+        (AuthCredential auth) {};
     final PhoneVerificationFailed _verifyFailed = (FirebaseAuthException e) {
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(e.message),
@@ -94,7 +125,8 @@ class UserController extends ControllerMVC {
     Overlay.of(state.context).insert(loader);
     repository.register(user).then((value) {
       if (value != null && value.apiToken != null) {
-        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Pages', arguments: 2);
       } else {
         ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
           content: Text(S.of(state.context).wrong_email_or_password),
@@ -118,19 +150,24 @@ class UserController extends ControllerMVC {
       Overlay.of(state.context).insert(loader);
       repository.resetPassword(user).then((value) {
         if (value != null && value == true) {
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-            content: Text(S.of(state.context).your_reset_link_has_been_sent_to_your_email),
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
+            content: Text(S
+                .of(state.context)
+                .your_reset_link_has_been_sent_to_your_email),
             action: SnackBarAction(
               label: S.of(state.context).login,
               onPressed: () {
-                Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Login');
+                Navigator.of(scaffoldKey.currentContext)
+                    .pushReplacementNamed('/Login');
               },
             ),
             duration: Duration(seconds: 10),
           ));
         } else {
           loader.remove();
-          ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(scaffoldKey?.currentContext)
+              .showSnackBar(SnackBar(
             content: Text(S.of(state.context).error_verify_email_settings),
           ));
         }

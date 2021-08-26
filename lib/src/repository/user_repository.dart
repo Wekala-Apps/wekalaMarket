@@ -50,33 +50,29 @@ Future<userModel.User> loginGoogle() async {
     //Firebase Sign in
     final result = await signInWithCredential(credential);
 
-    setCurrentUser(result.user);
-    // currentUser.value = userModel.User.fromJSON(json.decode(result.user)['data']);
-
-    // if (result.additionalUserInfo.isNewUser) {
-    //   await rest.post(
-    //     "users",
-    //     data: {
-    //       "id": result.user.uid,
-    //       "email": result.user.email,
-    //       "name": result.user.displayName,
-    //       "address": "",
-    //       "isDr": false,
-    //       "photoUrl": result.user.photoURL
-    //     },
-    //   );
-    // }
-
-    // final _user = await rest.get("users/${result.user.uid}");
-
-    // if (_user != null && _user.length != 0) {
-    //   rest.openSession(result.user.uid, result.user.uid);
-    //   return User.fromJson(_user);
-    // } else {
-    return null;
-    // }
+    // setCurrentUser(result.user);
+    if (result.additionalUserInfo.isNewUser) {
+      final String url =
+          '${GlobalConfiguration().getValue('api_base_url')}addUser';
+      final client = new http.Client();
+      final response = await client.post(
+        url,
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: json.encode(
+          {"email": result.user.email, "name": result.user.displayName},
+        ),
+      );
+      if (response.statusCode == 200) {
+        setCurrentUser(response.body);
+        currentUser.value =
+            userModel.User.fromJSON(json.decode(response.body)['data']);
+      } else {
+        throw new Exception(response.body);
+      }
+      return currentUser.value;
+    }
+    return currentUser.value;
   } catch (error) {
-    print(error);
     return null;
   }
 }
@@ -90,6 +86,7 @@ Future<userModel.User> register(userModel.User user) async {
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
+
   if (response.statusCode == 200) {
     setCurrentUser(response.body);
     currentUser.value =
