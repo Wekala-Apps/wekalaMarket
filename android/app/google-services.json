@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "273173449431-ldk1ef8cei7hpmjsr1h5pg6uk8rrahbi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "wekala.store.client",
+            "certificate_hash": "1af8c0065f0bcff805c02bda2638969061ec6199"
+          }
+        },
+        {
+          "client_id": "273173449431-udqro3t2ptf5k4ao6js2lke4rld96k8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "wekala.store.client",
+            "certificate_hash": "9bab65dca903db837b33712dba80563b96f77d57"
+          }
+        },
+        {
           "client_id": "273173449431-n6i58s977rcg2ibg9i6v6t3b24ru17np.apps.googleusercontent.com",
           "client_type": 3
         }
