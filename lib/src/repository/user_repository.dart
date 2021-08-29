@@ -71,6 +71,22 @@ Future<userModel.User> loginGoogle() async {
       }
       return currentUser.value;
     }
+
+    final String url =
+        '${GlobalConfiguration().getValue('api_base_url')}socialLogin';
+    final client = new http.Client();
+    final response = await client.post(
+      url,
+      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      body: json.encode({"email": result.user.email}),
+    );
+    if (response.statusCode == 200) {
+      setCurrentUser(response.body);
+      currentUser.value =
+          userModel.User.fromJSON(json.decode(response.body)['data']);
+    } else {
+      throw new Exception(response.body);
+    }
     return currentUser.value;
   } catch (error) {
     return null;
