@@ -219,7 +219,9 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                       SignInButton(
                         Buttons.GoogleDark,
                         // text: 'login with Google',
-                        onPressed: () {},
+                        onPressed: () {
+                          _con.loginGoogle();
+                        },
                       ),
                       Divider(),
                       SignInButton(
