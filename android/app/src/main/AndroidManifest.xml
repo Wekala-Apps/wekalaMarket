@@ -16,8 +16,10 @@
         android:usesCleartextTraffic="true"
         >
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyC3YYz8jqvHY3Yup1lzIdlU51FsjHKH5yE" />
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notification" />
+        <meta-data android:name="com.google.android.geo.API_KEY" 
+        android:value="AIzaSyCcLXcW9LvHQNNN_veB2vWP591EQ9GZ5UI" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+         android:resource="@mipmap/ic_notification" />
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
             <!-- This keeps the window background of the activity showing
                  until Flutter renders its first frame. It can be removed if
