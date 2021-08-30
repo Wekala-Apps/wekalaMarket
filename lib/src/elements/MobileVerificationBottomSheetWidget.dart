@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/app_config.dart' as config;
@@ -12,20 +13,106 @@ class MobileVerificationBottomSheetWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final userModel.User user;
 
-  MobileVerificationBottomSheetWidget({Key key, this.scaffoldKey, this.user}) : super(key: key);
+  MobileVerificationBottomSheetWidget({Key key, this.scaffoldKey, this.user})
+      : super(key: key);
 
   @override
-  _MobileVerificationBottomSheetWidgetState createState() => _MobileVerificationBottomSheetWidgetState();
+  _MobileVerificationBottomSheetWidgetState createState() =>
+      _MobileVerificationBottomSheetWidgetState();
 }
 
-class _MobileVerificationBottomSheetWidgetState extends State<MobileVerificationBottomSheetWidget> {
+class _MobileVerificationBottomSheetWidgetState
+    extends State<MobileVerificationBottomSheetWidget> {
   String smsSent;
   String errorMessage;
 
   @override
   void initState() {
-    verifyPhone();
+    verifyPhoneNumber();
     super.initState();
+  }
+
+  // final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _smsController = TextEditingController();
+  final SmsAutoFill _autoFill = SmsAutoFill();
+  String _verificationId = '';
+
+  void showSnackbar(String message) {
+    widget.scaffoldKey.currentState
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  void verifyPhoneNumber() async {
+    currentUser.value.verificationId = '';
+    smsSent = '';
+    //Callback for when the user has already previously signed in with this phone number on this device
+    PhoneVerificationCompleted verificationCompleted =
+        (PhoneAuthCredential phoneAuthCredential) async {
+      await _auth.signInWithCredential(phoneAuthCredential);
+      showSnackbar(
+          "Phone number automatically verified and user signed in: ${_auth.currentUser.uid}");
+    };
+
+    //Listens for errors with verification, such as too many attempts
+    PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException authException) {
+      showSnackbar(
+          'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+    };
+
+    //Callback for when the code is sent
+    PhoneCodeSent codeSent =
+        (String verificationId, [int forceResendingToken]) async {
+      showSnackbar('Please check your phone for the verification code.');
+      currentUser.value.verificationId = verificationId;
+    };
+
+    PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      showSnackbar("verification code: " + verificationId);
+      currentUser.value.verificationId = verificationId;
+    };
+
+    try {
+      await _auth.verifyPhoneNumber(
+          phoneNumber: widget.user.phone,
+          timeout: const Duration(seconds: 5),
+          verificationCompleted: verificationCompleted,
+          verificationFailed: verificationFailed,
+          codeSent: codeSent,
+          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+    } catch (e) {
+      showSnackbar("Failed to Verify Phone Number: ${e}");
+    }
+  }
+
+  void signInWithPhoneNumber() async {
+    try {
+      final AuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: currentUser.value.verificationId,
+        smsCode: smsSent,
+      );
+
+      // final User user = (await _auth.signInWithCredential(credential)).user;
+
+      await _auth.signInWithCredential(credential).then((user) {
+        currentUser.value.verifiedPhone = true;
+        widget.user.verifiedPhone = true;
+        Navigator.of(widget.scaffoldKey.currentContext).pop();
+      }).catchError((e) {
+        setState(() {
+          errorMessage = e.toString().split('\]').last;
+        });
+        print(e.toString());
+      });
+
+      // showSnackbar("Successfully signed in UID: ${user.uid}");
+    } catch (e) {
+      showSnackbar("Failed to sign in: " + e.toString());
+    }
   }
 
   verifyPhone() async {
@@ -35,7 +122,8 @@ class _MobileVerificationBottomSheetWidgetState extends State<MobileVerification
     final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
       currentUser.value.verificationId = verId;
     };
-    final PhoneVerificationCompleted _verifiedSuccess = (AuthCredential auth) {};
+    final PhoneVerificationCompleted _verifiedSuccess =
+        (AuthCredential auth) {};
     final PhoneVerificationFailed _verifyFailed = (FirebaseAuthException e) {};
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: widget.user.phone,
@@ -53,9 +141,13 @@ class _MobileVerificationBottomSheetWidgetState extends State<MobileVerification
       height: 500,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20), topLeft: Radius.circular(20)),
         boxShadow: [
-          BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.4), blurRadius: 30, offset: Offset(0, -30)),
+          BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.4),
+              blurRadius: 30,
+              offset: Offset(0, -30)),
         ],
       ),
       child: Stack(
@@ -63,7 +155,8 @@ class _MobileVerificationBottomSheetWidgetState extends State<MobileVerification
           Padding(
             padding: const EdgeInsets.only(top: 25),
             child: ListView(
-              padding: EdgeInsets.only(top: 40, bottom: 15, left: 20, right: 20),
+              padding:
+                  EdgeInsets.only(top: 40, bottom: 15, left: 20, right: 20),
               children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -75,24 +168,33 @@ class _MobileVerificationBottomSheetWidgetState extends State<MobileVerification
                     SizedBox(height: 10),
                     errorMessage == null
                         ? Text(
-                            S.of(context).weAreSendingOtpToValidateYourMobileNumberHang,
+                            S
+                                .of(context)
+                                .weAreSendingOtpToValidateYourMobileNumberHang,
                             style: Theme.of(context).textTheme.bodyText2,
                             textAlign: TextAlign.center,
                           )
                         : Text(
                             errorMessage ?? '',
-                            style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(color: Colors.redAccent)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .merge(TextStyle(color: Colors.redAccent)),
                             textAlign: TextAlign.center,
                           ),
                   ],
                 ),
                 SizedBox(height: 30),
                 TextField(
-                  style: Theme.of(context).textTheme.headline1.merge(TextStyle(letterSpacing: 15)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      .merge(TextStyle(letterSpacing: 15)),
                   textAlign: TextAlign.center,
                   decoration: new InputDecoration(
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2)),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).focusColor.withOpacity(0.2)),
                     ),
                     focusedBorder: new UnderlineInputBorder(
                       borderSide: new BorderSide(
@@ -114,25 +216,32 @@ class _MobileVerificationBottomSheetWidgetState extends State<MobileVerification
                 SizedBox(height: 80),
                 BlockButtonWidget(
                   onPressed: () async {
-                    User user = FirebaseAuth.instance.currentUser;
-                    print(user.toString());
-                    print(currentUser.value.verificationId);
-                    final AuthCredential credential = PhoneAuthProvider.credential(verificationId: currentUser.value.verificationId, smsCode: smsSent);
+                    signInWithPhoneNumber();
+                    // User user = FirebaseAuth.instance.currentUser;
+                    // print(user.toString());
+                    // print(currentUser.value.verificationId);
+                    // final AuthCredential credential =
+                    //     PhoneAuthProvider.credential(
+                    //         verificationId: currentUser.value.verificationId,
+                    //         smsCode: smsSent);
 
-                    await FirebaseAuth.instance.signInWithCredential(credential).then((user) {
-                      currentUser.value.verifiedPhone = true;
-                      widget.user.verifiedPhone = true;
-                      Navigator.of(widget.scaffoldKey.currentContext).pop();
-                    }).catchError((e) {
-                      setState(() {
-                        errorMessage = e.toString().split('\]').last;
-                      });
-                      print(e.toString());
-                    });
+                    // await FirebaseAuth.instance
+                    //     .signInWithCredential(credential)
+                    //     .then((user) {
+                    //   currentUser.value.verifiedPhone = true;
+                    //   widget.user.verifiedPhone = true;
+                    //   Navigator.of(widget.scaffoldKey.currentContext).pop();
+                    // }).catchError((e) {
+                    //   setState(() {
+                    //     errorMessage = e.toString().split('\]').last;
+                    //   });
+                    //   print(e.toString());
+                    // });
                   },
                   color: Theme.of(context).accentColor,
                   text: Text(S.of(context).verify.toUpperCase(),
-                      style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                      style: Theme.of(context).textTheme.headline6.merge(
+                          TextStyle(color: Theme.of(context).primaryColor))),
                 ),
               ],
             ),
@@ -140,10 +249,12 @@ class _MobileVerificationBottomSheetWidgetState extends State<MobileVerification
           Container(
             height: 30,
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 13, horizontal: config.App(context).appWidth(42)),
+            padding: EdgeInsets.symmetric(
+                vertical: 13, horizontal: config.App(context).appWidth(42)),
             decoration: BoxDecoration(
               color: Theme.of(context).focusColor.withOpacity(0.05),
-              borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             ),
             child: Container(
               width: 30,
