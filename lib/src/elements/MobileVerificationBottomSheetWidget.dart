@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+// import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/app_config.dart' as config;
@@ -36,7 +36,7 @@ class _MobileVerificationBottomSheetWidgetState
 
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
-  final SmsAutoFill _autoFill = SmsAutoFill();
+  // final SmsAutoFill _autoFill = SmsAutoFill();
   String _verificationId = '';
 
   void showSnackbar(String message) {
