@@ -6,7 +6,6 @@ import '../controllers/home_controller.dart';
 import '../elements/CardsCarouselWidget.dart';
 import '../elements/CaregoriesCarouselWidget.dart';
 import '../elements/DeliveryAddressBottomSheetWidget.dart';
-import '../elements/GridWidget.dart';
 import '../elements/HomeSliderWidget.dart';
 import '../elements/ProductsCarouselWidget.dart';
 import '../elements/ReviewsListWidget.dart';

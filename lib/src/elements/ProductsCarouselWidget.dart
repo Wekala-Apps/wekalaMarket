@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wekala/src/models/market.dart';
-
+import '../models/market.dart';
 import '../elements/ProductsCarouselItemWidget.dart';
 import '../elements/ProductsCarouselLoaderWidget.dart';
-import '../models/product.dart';
 
 class ProductsCarouselWidget extends StatefulWidget {
   //final List<Product> productsList;

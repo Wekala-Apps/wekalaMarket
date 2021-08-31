@@ -7,7 +7,6 @@ import '../elements/DrawerWidget.dart';
 import '../elements/EmptyOrdersWidget.dart';
 import '../elements/OrderItemWidget.dart';
 import '../elements/PermissionDeniedWidget.dart';
-import '../elements/ProfileAvatarWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../repository/user_repository.dart';
 
