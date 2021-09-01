@@ -242,31 +242,31 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   return CategoriesCarouselWidget(
                     categories: _con.categories,
                   );
-                // case 'popular_heading':
-                //   return Padding(
-                //     padding:
-                //         const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                //     child: ListTile(
-                //       dense: true,
-                //       contentPadding: EdgeInsets.symmetric(vertical: 0),
-                //       leading: Icon(
-                //         Icons.trending_up,
-                //         color: Theme.of(context).hintColor,
-                //       ),
-                //       title: Text(
-                //         S.of(context).most_popular,
-                //         style: Theme.of(context).textTheme.headline4,
-                //       ),
-                //     ),
-                //   );
-                // case 'popular':
-                //   return Padding(
-                //     padding: const EdgeInsets.symmetric(horizontal: 20),
-                //     child: GridWidget(
-                //       marketsList: _con.popularMarkets,
-                //       heroTag: 'home_markets',
-                //     ),
-                //   );
+                case 'popular_heading':
+                  return Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                    child: ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      leading: Icon(
+                        Icons.trending_up,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      title: Text(
+                        S.of(context).most_popular,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
+                  );
+                case 'popular':
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: GridWidget(
+                      marketsList: _con.popularMarkets,
+                      heroTag: 'home_markets',
+                    ),
+                  );
                 case 'recent_reviews_heading':
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
