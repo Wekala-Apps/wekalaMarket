@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../generated/l10n.dart';
-import '../elements/SearchWidget.dart';
 
 class OrderingWidget extends StatelessWidget {
   final ValueChanged onClickFilter;

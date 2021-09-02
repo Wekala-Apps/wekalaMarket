@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -129,7 +128,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                   Theme.of(context).focusColor.withOpacity(0.2),
                               height: 40,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/SignUp');
+                                Navigator.of(context).pushNamed('/Login');
                               },
                               child: Wrap(
                                 runAlignment: WrapAlignment.center,
