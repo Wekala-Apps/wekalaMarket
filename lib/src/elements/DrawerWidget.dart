@@ -128,7 +128,7 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                                   Theme.of(context).focusColor.withOpacity(0.2),
                               height: 40,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/SignUp');
+                                Navigator.of(context).pushNamed('/Login');
                               },
                               child: Wrap(
                                 runAlignment: WrapAlignment.center,

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../generated/l10n.dart';
 import '../controllers/user_controller.dart';
-import '../elements/BlockButtonWidget.dart';
-import '../helpers/app_config.dart' as config;
 import '../helpers/helper.dart';
 import '../repository/user_repository.dart' as userRepo;
 
@@ -34,244 +31,297 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
       onWillPop: Helper.of(context).onWillPop,
       child: Scaffold(
         key: _con.scaffoldKey,
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          alignment: AlignmentDirectional.topCenter,
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              child: Container(
-                width: config.App(context).appWidth(100),
-                height: config.App(context).appHeight(37),
-                decoration: BoxDecoration(color: Theme.of(context).accentColor),
-              ),
-            ),
-            Positioned(
-              top: config.App(context).appHeight(37) - 120,
-              child: Container(
-                width: config.App(context).appWidth(84),
-                height: config.App(context).appHeight(37),
-                child: Text(
-                  S.of(context).lets_start_with_login,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline2
-                      .merge(TextStyle(color: Theme.of(context).primaryColor)),
-                ),
-              ),
-            ),
-            Positioned(
-              top: config.App(context).appHeight(37) - 50,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 50,
-                        color: Theme.of(context).hintColor.withOpacity(0.2),
-                      )
-                    ]),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                padding:
-                    EdgeInsets.only(top: 50, right: 27, left: 27, bottom: 20),
-                width: config.App(context).appWidth(88),
-//              height: config.App(context).appHeight(55),
-                child: Form(
-                  key: _con.loginFormKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        onSaved: (input) => _con.user.email = input,
-                        validator: (input) => !input.contains('@')
-                            ? S.of(context).should_be_a_valid_email
-                            : null,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).email,
-                          labelStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          contentPadding: EdgeInsets.all(12),
-                          hintText: 'Email@test.com',
-                          hintStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.7)),
-                          prefixIcon: Icon(Icons.alternate_email,
-                              color: Theme.of(context).accentColor),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.5))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        onSaved: (input) => _con.user.password = input,
-                        validator: (input) => input.length < 3
-                            ? S.of(context).should_be_more_than_3_characters
-                            : null,
-                        obscureText: _con.hidePassword,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).password,
-                          labelStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          contentPadding: EdgeInsets.all(12),
-                          hintText: '••••••••••••',
-                          hintStyle: TextStyle(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.7)),
-                          prefixIcon: Icon(Icons.lock_outline,
-                              color: Theme.of(context).accentColor),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _con.hidePassword = !_con.hidePassword;
-                              });
-                            },
-                            color: Theme.of(context).focusColor,
-                            icon: Icon(_con.hidePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined),
-                          ),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.5))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withOpacity(0.2))),
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      BlockButtonWidget(
-                        text: Text(
-                          S.of(context).login,
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ),
-                        color: Theme.of(context).accentColor,
-                        onPressed: () {
-                          _con.login();
-                          // Navigator.of(context)
-                          //     .pushReplacementNamed('/Pages', arguments: 2);
-                        },
-                      ),
-                      SizedBox(height: 15),
-                      // SignInButton(
-                      //   Buttons.Google,
-                      //   onPressed: () {},
-                      // ),
-                      // SignInButtonBuilder(
-                      //   elevation: 2.0,
-                      //   key: ValueKey("Google"),
-                      //   text: 'Sign in with Google',
-                      //   fontSize: 18,
-                      //   textColor: Color(0xFFFFFFFF),
-                      //   image: Container(
-                      //     margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                      //     child: ClipRRect(
-                      //       borderRadius: BorderRadius.circular(8.0),
-                      //       child: Image(
-                      //         image: AssetImage(
-                      //           // button == Buttons.Google
-                      //           // ? 'assets/logos/google_light.png'
-                      //           'assets/logos/google_dark.png',
-                      //           package: 'flutter_signin_button',
-                      //         ),
-                      //         // height: 50.0,
-                      //         // width: 50.0,
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   backgroundColor: Color(0xFF4285F4),
-                      //   onPressed: () {},
-                      //   padding: EdgeInsets.all(0),
-                      //   innerPadding: EdgeInsets.all(0),
-                      //   // width: 500,
-                      // ),
-                      Divider(),
-                      SignInButton(
-                        Buttons.GoogleDark,
-                        // text: 'login with Google',
-                        onPressed: () {
-                          _con.loginGoogle();
-                        },
-                      ),
-                      Divider(),
-                      SignInButton(
-                        Buttons.Facebook,
-                        onPressed: () {},
-                      ),
-                      SizedBox(height: 5),
-                      MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/Pages', arguments: 2);
-                        },
-                        shape: StadiumBorder(),
-                        textColor: Theme.of(context).hintColor,
-                        child: Text(S.of(context).skip),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 14),
-                      ),
-//                      SizedBox(height: 10),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 4,
-              child: Column(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: true,
+        body: Container(
+          padding: const EdgeInsets.only(top: 23.0),
+          child: Column(
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.topCenter,
                 children: <Widget>[
-                  MaterialButton(
-                    elevation: 0,
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/ForgetPassword');
-                    },
-                    textColor: Theme.of(context).hintColor,
-                    child: Text(S.of(context).i_forgot_password),
+                  Card(
+                    elevation: 2.0,
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: SizedBox(
+                      height: 190.0,
+                      width: 355.0,
+                    ),
                   ),
-                  MaterialButton(
-                    elevation: 0,
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/SignUp');
-                    },
-                    textColor: Theme.of(context).hintColor,
-                    child: Text(S.of(context).i_dont_have_an_account),
+                  Form(
+                    key: _con.loginFormKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            onSaved: (input) => _con.user.email = input,
+                            validator: (input) => !input.contains('@')
+                                ? S.of(context).should_be_a_valid_email
+                                : null,
+                            decoration: InputDecoration(
+                              labelText: S.of(context).email,
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                              contentPadding: EdgeInsets.all(12),
+                              hintText: 'Email@test.com',
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.7)),
+                              prefixIcon: Icon(Icons.alternate_email,
+                                  color: Theme.of(context).accentColor),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.2))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.5))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.2))),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            onSaved: (input) => _con.user.password = input,
+                            validator: (input) => input.length < 3
+                                ? S.of(context).should_be_more_than_3_characters
+                                : null,
+                            obscureText: _con.hidePassword,
+                            decoration: InputDecoration(
+                              labelText: S.of(context).password,
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                              contentPadding: EdgeInsets.all(12),
+                              hintText: '••••••••••••',
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.7)),
+                              prefixIcon: Icon(Icons.lock_outline,
+                                  color: Theme.of(context).accentColor),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _con.hidePassword = !_con.hidePassword;
+                                  });
+                                },
+                                color: Theme.of(context).focusColor,
+                                icon: Icon(_con.hidePassword
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.2))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.5))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.2))),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20.0),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Theme.of(context).primaryColor,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 20.0,
+                              ),
+                              BoxShadow(
+                                color: Theme.of(context).accentColor,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 20.0,
+                              ),
+                            ],
+                            gradient: LinearGradient(
+                                colors: <Color>[
+                                  Theme.of(context).accentColor,
+                                  Theme.of(context).accentColor,
+                                ],
+                                begin: FractionalOffset(0.2, 0.2),
+                                end: FractionalOffset(1.0, 1.0),
+                                stops: <double>[0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                          ),
+                          child: MaterialButton(
+                            highlightColor: Colors.transparent,
+                            splashColor: Theme.of(context).primaryColor,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 42.0),
+                              child: Text(
+                                S.of(context).login.toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontFamily: 'WorkSansBold'),
+                              ),
+                            ),
+                            onPressed: () {
+                              _con.login();
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/Pages', arguments: 2);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/Pages', arguments: 2);
+                  },
+                  child: Text(
+                    S.of(context).skip,
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Theme.of(context).hintColor,
+                        fontSize: 16.0,
+                        fontFamily: 'WorkSansMedium'),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[
+                              Theme.of(context).highlightColor,
+                              Theme.of(context).hintColor,
+                            ],
+                            begin: FractionalOffset(0.0, 0.0),
+                            end: FractionalOffset(1.0, 1.0),
+                            stops: <double>[0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                      ),
+                      width: 100.0,
+                      height: 1.0,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: Text(
+                        'Or',
+                        style: TextStyle(
+                            color: Theme.of(context).hintColor,
+                            fontSize: 16.0,
+                            fontFamily: 'WorkSansMedium'),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[
+                              Theme.of(context).hintColor,
+                              Theme.of(context).highlightColor,
+                            ],
+                            begin: FractionalOffset(0.0, 0.0),
+                            end: FractionalOffset(1.0, 1.0),
+                            stops: <double>[0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                      ),
+                      width: 100.0,
+                      height: 1.0,
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, right: 40.0),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.facebookF,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _con.loginGoogle();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.google,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/ForgetPassword');
+                  },
+                  child: Text(
+                    S.of(context).i_forgot_password,
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Theme.of(context).hintColor,
+                        fontSize: 16.0,
+                        fontFamily: 'WorkSansMedium'),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

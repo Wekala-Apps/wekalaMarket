@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../generated/l10n.dart';
 import '../controllers/user_controller.dart';
 import '../elements/BlockButtonWidget.dart';
@@ -20,65 +20,43 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
     _con = controller;
   }
 
+  String confirmation = '';
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: Helper.of(context).onWillPop,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         key: _con.scaffoldKey,
         resizeToAvoidBottomInset: true,
-        body: Stack(
-          alignment: AlignmentDirectional.topCenter,
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              child: Container(
-                width: config.App(context).appWidth(100),
-                height: config.App(context).appHeight(29.5),
-                decoration: BoxDecoration(color: Theme.of(context).accentColor),
-              ),
-            ),
-            Positioned(
-              top: config.App(context).appHeight(29.5) - 120,
-              child: Container(
-                width: config.App(context).appWidth(84),
-                height: config.App(context).appHeight(29.5),
-                child: Text(
-                  S.of(context).lets_start_with_register,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline2
-                      .merge(TextStyle(color: Theme.of(context).primaryColor)),
-                ),
-              ),
-            ),
-            Positioned(
-              top: config.App(context).appHeight(29.5) - 50,
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 50,
-                            color: Theme.of(context).hintColor.withOpacity(0.2),
-                          )
-                        ]),
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 20,
+        body: Container(
+          padding: const EdgeInsets.only(top: 23.0),
+          child: Column(
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  Card(
+                    elevation: 2.0,
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 50, horizontal: 27),
-                    width: config.App(context).appWidth(88),
-//              height: config.App(context).appHeight(55),
-                    child: Form(
-                      key: _con.loginFormKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          TextFormField(
+                    child: Container(
+                      width: 355.0,
+                      height: 385.0,
+                    ),
+                  ),
+                  Form(
+                    key: _con.loginFormKey,
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
                             keyboardType: TextInputType.text,
                             onSaved: (input) => _con.user.name = input,
                             validator: (input) => input.length < 3
@@ -113,8 +91,11 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                           .withOpacity(0.2))),
                             ),
                           ),
-                          SizedBox(height: 30),
-                          TextFormField(
+                        ),
+                        // SizedBox(height: 30),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (input) => _con.user.email = input,
                             validator: (input) => !input.contains('@')
@@ -149,8 +130,11 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                           .withOpacity(0.2))),
                             ),
                           ),
-                          SizedBox(height: 30),
-                          TextFormField(
+                        ),
+                        // SizedBox(height: 30),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
                             keyboardType: TextInputType.phone,
                             onSaved: (input) => _con.user.phone = input,
                             validator: (input) {
@@ -189,9 +173,13 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                           .withOpacity(0.2))),
                             ),
                           ),
-                          SizedBox(height: 30),
-                          TextFormField(
+                        ),
+                        // SizedBox(height: 30),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
                             obscureText: _con.hidePassword,
+                            onChanged: (value) => confirmation = value,
                             onSaved: (input) => _con.user.password = input,
                             validator: (input) => input.length < 6
                                 ? S.of(context).should_be_more_than_6_letters
@@ -236,14 +224,107 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                           .withOpacity(0.2))),
                             ),
                           ),
-                          SizedBox(height: 30),
-                          BlockButtonWidget(
-                            text: Text(
-                              S.of(context).register,
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(27, 20, 27, 0),
+                          child: TextFormField(
+                            obscureText: _con.hidePassword,
+                            // onSaved: (input) => _con.user.password = input,
+                            validator: (input) {
+                              if (input.length < 6) {
+                                return S
+                                    .of(context)
+                                    .should_be_more_than_6_letters;
+                              }
+                              if (input != confirmation) {
+                                return 'The password confirmation does not match';
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Confirmation',
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                              contentPadding: EdgeInsets.all(12),
+                              hintText: '••••••••••••',
+                              hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.7)),
+                              prefixIcon: Icon(Icons.lock_outline,
+                                  color: Theme.of(context).accentColor),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _con.hidePassword = !_con.hidePassword;
+                                  });
+                                },
+                                color: Theme.of(context).focusColor,
+                                icon: Icon(_con.hidePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.2))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.5))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.2))),
                             ),
-                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20.0),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Theme.of(context).primaryColor,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 20.0,
+                              ),
+                              BoxShadow(
+                                color: Theme.of(context).accentColor,
+                                offset: Offset(1.0, 6.0),
+                                blurRadius: 20.0,
+                              ),
+                            ],
+                            gradient: LinearGradient(
+                                colors: <Color>[
+                                  Theme.of(context).accentColor,
+                                  Theme.of(context).accentColor,
+                                ],
+                                begin: FractionalOffset(0.2, 0.2),
+                                end: FractionalOffset(1.0, 1.0),
+                                stops: <double>[0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                          ),
+                          child: MaterialButton(
+                            highlightColor: Colors.transparent,
+                            splashColor: Theme.of(context).accentColor,
+                            //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 42.0),
+                              child: Text(
+                                S.of(context).register,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 25.0,
+                                    fontFamily: 'WorkSansBold'),
+                              ),
+                            ),
                             onPressed: () {
                               if (_con.loginFormKey.currentState.validate()) {
                                 _con.loginFormKey.currentState.save();
@@ -256,49 +337,27 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                                           user: _con.user),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: new BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10)),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
                                   ),
                                 );
-                                bottomSheetController.closed.then((value) {
-                                  _con.register();
-                                });
+                                bottomSheetController.closed.then(
+                                  (value) {
+                                    _con.register();
+                                  },
+                                );
                               }
                             },
                           ),
-                          // SizedBox(height: 25),
-//                      MaterialButton(elevation:0,
-//                        onPressed: () {
-//                          Navigator.of(context).pushNamed('/MobileVerification');
-//                        },
-//                        padding: EdgeInsets.symmetric(vertical: 14),
-//                        color: Theme.of(context).accentColor.withOpacity(0.1),
-//                        shape: StadiumBorder(),
-//                        child: Text(
-//                          'Register with Google',
-//                          textAlign: TextAlign.start,
-//                          style: TextStyle(
-//                            color: Theme.of(context).accentColor,
-//                          ),
-//                        ),
-//                      ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  MaterialButton(
-                    elevation: 0,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/Login');
-                    },
-                    textColor: Theme.of(context).hintColor,
-                    child: Text(S.of(context).i_have_account_back_to_login),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

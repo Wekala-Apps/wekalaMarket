@@ -14,23 +14,22 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -46,20 +45,11 @@ class S {
     );
   }
 
-  String get orderingformarkets {
-    return Intl.message(
-      'Enter your order here',
-      name: 'orderingformarkets',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Top Markets`
-  String get hyper_market {
+  String get top_markets {
     return Intl.message(
-      'Hyper Market',
-      name: 'Hyper Market',
+      'Top Markets',
+      name: 'top_markets',
       desc: '',
       args: [],
     );
@@ -75,11 +65,11 @@ class S {
     );
   }
 
-  /// Neigbhourhood Market
-  String get neigbour_market {
+  /// `Trending This Week`
+  String get trending_this_week {
     return Intl.message(
-      'Neigbour Market',
-      name: 'Neigbour Market',
+      'Trending This Week',
+      name: 'trending_this_week',
       desc: '',
       args: [],
     );
@@ -170,6 +160,36 @@ class S {
     return Intl.message(
       'Select your preferred languages',
       name: 'select_your_preferred_languages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your order here`
+  String get orderingformarkets {
+    return Intl.message(
+      'Enter your order here',
+      name: 'orderingformarkets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hyper Market`
+  String get hyper_market {
+    return Intl.message(
+      'Hyper Market',
+      name: 'hyper_market',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Neigbour Market`
+  String get neigbour_market {
+    return Intl.message(
+      'Neigbour Market',
+      name: 'neigbour_market',
       desc: '',
       args: [],
     );
@@ -720,6 +740,16 @@ class S {
     return Intl.message(
       'Should be more than 6 letters',
       name: 'should_be_more_than_6_letters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password confirmation does not match`
+  String get password_confirmation {
+    return Intl.message(
+      'The password confirmation does not match',
+      name: 'password_confirmation',
       desc: '',
       args: [],
     );
@@ -2258,8 +2288,8 @@ class S {
   /// `Click on the product to get more details about it`
   String get clickOnTheProductToGetMoreDetailsAboutIt {
     return Intl.message(
-      'Markets Near You within 2 Km',
-      name: 'Markets Near You within 2 Km',
+      'Click on the product to get more details about it',
+      name: 'clickOnTheProductToGetMoreDetailsAboutIt',
       desc: '',
       args: [],
     );
